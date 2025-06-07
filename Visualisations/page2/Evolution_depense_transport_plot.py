@@ -124,4 +124,3 @@ plt.title("Evolution de la dépense en transport (Md€) entre 2020 et 2024")
 
 # Ajout de la légende dans le coin supérieur gauche
 plt.legend(loc='upper left')
-plt.savefig("./images_visualisation/Evolution_depense_transport")
