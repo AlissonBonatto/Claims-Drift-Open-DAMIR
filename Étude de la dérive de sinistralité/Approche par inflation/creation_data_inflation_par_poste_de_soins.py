@@ -1,7 +1,7 @@
-'''Ce code utilise l’intégralité des codes actes.'''
-
+'''Ce code utilise uniquement les codes actes classés selon la méthode présentée dans l’étude bibliographique.'''
 import pandas as pd
-from classement_codes_actes_manquants_perplexity import  classification
+import os
+from utils.code_acte import Poste_soins, dic 
 
 
 main_paths = {
@@ -30,10 +30,21 @@ for year, path in main_paths.items():
 
 df_total = pd.concat(all_data, ignore_index=True)
 
-def get_famille(prs_nat):
-    return classification.get(prs_nat, None)
+prs_nat_to_famille = {}
 
+for famille_name, ids in Poste_soins.items():
+    for id_ in ids:
+        prs_nat_list = dic.get(id_, [])
+        for prs_nat in prs_nat_list:
+            prs_nat_to_famille[prs_nat] = famille_name
+
+
+def get_famille(prs_nat):
+    return prs_nat_to_famille.get(prs_nat, None)
+
+# 3. Ajouter la colonne dans df_total
 df_total['FAMILLE_ACTE'] = df_total['PRS_NAT'].apply(get_famille)
+
 
 # Agrégation annuelle par famille
 df_aggr = df_total.groupby(["ANNEE", "FAMILLE_ACTE"], as_index=False).agg({
@@ -44,5 +55,4 @@ df_aggr = df_total.groupby(["ANNEE", "FAMILLE_ACTE"], as_index=False).agg({
 df_aggr["COUT_MOYEN_FR"] = df_aggr["FLT_PAI_MNT"] / df_aggr["FLT_ACT_QTE"]
 df_aggr["COUT_MOYEN_RAC"] = df_aggr["RAC"] / df_aggr["FLT_ACT_QTE"]
 
-df_aggr.to_csv(r'/raid/datasets/allianzsante/Étude de la dérive de sinistralité/Approche par inflation/DBs/df_aggr_par_postedesoins_v2.csv')
-
+df_aggr.to_csv(r'/Étude de la dérive de sinistralité/Approche par inflation/DBs/inflation_par_poste_de_soins.csv')

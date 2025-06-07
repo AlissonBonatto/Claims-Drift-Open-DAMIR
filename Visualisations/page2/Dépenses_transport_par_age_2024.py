@@ -90,6 +90,6 @@ plt.xticks(ticks=range(0, 8),
 
 # Format des valeurs monétaires en millions d'euros sur l'axe Y
 plt.gca().yaxis.set_major_formatter(mticker.FuncFormatter(lambda x, _: f'{x/1_000_000_000:.1f} Md€'))
-plt.savefig("./images_visualisation/dépenses en transport par tranches d'âges")
+plt.show()
 
 

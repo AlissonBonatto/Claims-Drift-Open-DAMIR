@@ -7,7 +7,7 @@ L'inflation est estimée en comparant les coûts moyens entre deux années cons�
 pondérés par les quantités d'actes.'''
 
 # Chargement des données
-df_aggr = pd.read_csv(r'/raid/datasets/allianzsante/Étude de la dérive de sinistralité/Approche par inflation/DBs/df_aggr_par_postedesoins_v1.csv')
+df_aggr = pd.read_csv(r'/Étude de la dérive de sinistralité/Approche par inflation/DBs/inflation_par_poste_de_soins.csv')
 
 annees = sorted(df_aggr["ANNEE"].unique())
 for i in range(len(annees) - 1):
